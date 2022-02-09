@@ -1,8 +1,9 @@
-import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {StyleSheet} from 'react-native';
 import {PanGestureHandler} from 'react-native-gesture-handler';
 import Animated, {
   useSharedValue,
+  withSequence,
   withTiming,
   useAnimatedStyle,
   useAnimatedGestureHandler,
@@ -12,9 +13,15 @@ import {hdp} from '@shared';
 
 interface IActionButton {
   backgroundColor: string;
+  index: number;
+  activeIndex: number | null;
 }
 
-export const ActionButton = ({backgroundColor}: IActionButton) => {
+export const ActionButton = ({
+  backgroundColor,
+  index,
+  activeIndex,
+}: IActionButton) => {
   const scale = useSharedValue(1);
 
   const onGestureEvent = useAnimatedGestureHandler({
@@ -35,6 +42,12 @@ export const ActionButton = ({backgroundColor}: IActionButton) => {
       ],
     };
   });
+
+  useEffect(() => {
+    if (activeIndex === index) {
+      scale.value = withSequence(withTiming(0.5), withTiming(1));
+    }
+  }, [activeIndex, index, scale]);
 
   return (
     <PanGestureHandler onGestureEvent={onGestureEvent}>

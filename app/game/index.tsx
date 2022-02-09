@@ -1,29 +1,43 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 
 import type {StackScreenProps} from '@react-navigation/stack';
 
-import {Types, useThemedStyles, useTheme} from '@shared';
+import {Types, useThemedStyles, hdp} from '@shared';
 
 import {ActionButton} from './components';
-import {hdp} from '../shared';
+import {SIMON_CONFIG} from './constants';
+import {useSequencePlayer} from './hooks';
+
+const SEQUENCE = [0, 2, 1];
 
 export const Game = ({
   navigation: {},
 }: StackScreenProps<Types.RootStackParamList, 'Game'>) => {
-  const theme = useTheme();
   const style = useThemedStyles(styles);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
-  // const onPress = useCallback(() => navigate('Results'), [navigate]);
+  const renderItem = useCallback(
+    ({index, backgroundColor}: Types.ISimonItem) => (
+      <ActionButton
+        key={index}
+        activeIndex={activeIndex}
+        backgroundColor={backgroundColor}
+        index={index}
+      />
+    ),
+    [activeIndex],
+  );
+
+  useSequencePlayer({
+    sequence: SEQUENCE,
+    onChange: setActiveIndex,
+    preDelay: 2000,
+  });
 
   return (
     <SafeAreaView style={style.screen}>
-      <View style={style.wrapper}>
-        <ActionButton backgroundColor={theme.palette.red} />
-        <ActionButton backgroundColor={theme.palette.green} />
-        <ActionButton backgroundColor={theme.palette.blue} />
-        <ActionButton backgroundColor={theme.palette.orange} />
-      </View>
+      <View style={style.wrapper}>{SIMON_CONFIG.map(renderItem)}</View>
     </SafeAreaView>
   );
 };

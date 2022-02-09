@@ -6,6 +6,11 @@ export type RootStackParamList = {
   Results: undefined;
 };
 
+export interface ISimonItem {
+  backgroundColor: string;
+  index: number;
+}
+
 export interface IPalette {
   primary: string;
   secondary: string;
