@@ -25,7 +25,6 @@ export const gameSlice = createSlice({
   reducers: {
     onGenerateSimonSequence: {
       reducer: (state, action: PayloadAction<Array<number>>) => {
-        console.log(action.payload);
         state.sequence = action.payload;
       },
       prepare: (level: number) => {

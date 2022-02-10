@@ -48,7 +48,6 @@ export const Game = ({
     dispatch(storeActions.onGenerateSimonSequence(state.level));
   }, [dispatch, state.level]);
 
-  console.log('state.isGameOver', state.isGameOver);
   /**
    * Navigate to game over screen if loosed
    * */

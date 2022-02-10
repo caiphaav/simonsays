@@ -1,7 +1,7 @@
 module.exports = {
   presets: ['module:metro-react-native-babel-preset'],
   plugins: [
-    //'transform-remove-console',
+    'transform-remove-console',
     '@babel/plugin-proposal-export-namespace-from',
     [
       'module-resolver',
