@@ -17,7 +17,7 @@ const renderItem = ({item}: {item: Types.IResult}) => (
   <LocalComponents.ListItem item={item} />
 );
 
-const keyExtractor = (_: Types.IResult, index: number) => index.toString();
+const keyExtractor = (item: Types.IResult) => item.id;
 
 export const Results = ({
   navigation: {navigate},

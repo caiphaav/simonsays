@@ -20,9 +20,13 @@ export interface IGameStore {
   currentSequenceIndex: number;
 }
 
-export interface IResult {
+export interface IResultBasic {
   name: string;
   score: number;
+}
+
+export interface IResult extends IResultBasic {
+  id: string;
 }
 
 export interface IResultsStore {

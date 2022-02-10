@@ -40,11 +40,7 @@ export const Modal = ({isModalVisible, setModalVisible, goBack}: IModal) => {
 
   const onConfirm = useCallback(() => {
     if (name.length < 1) return;
-    dispatch(
-      storeActions.onAddResult({
-        result: {score: state.score, name},
-      }),
-    );
+    dispatch(storeActions.onAddResult({score: state.score, name}));
     setModalVisible(false);
   }, [dispatch, name, setModalVisible, state.score]);
 
