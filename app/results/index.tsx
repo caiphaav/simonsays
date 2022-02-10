@@ -9,9 +9,9 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import type {StackScreenProps} from '@react-navigation/stack';
 
-import * as LocalComponents from './components';
-
 import {Types, useThemedStyles, storeActions, SharedComponents} from '@shared';
+
+import * as LocalComponents from './components';
 
 const renderItem = ({item}: {item: Types.IResult}) => (
   <LocalComponents.ListItem item={item} />

@@ -49,7 +49,9 @@ export const Modal = ({isModalVisible, setModalVisible, goBack}: IModal) => {
   }, [dispatch, name, setModalVisible, state.score]);
 
   useEffect(() => {
-    ref.current?.focus();
+    const timeout = setTimeout(() => ref.current?.focus(), 500);
+
+    return () => clearTimeout(timeout);
   }, [ref.current?.focus]);
 
   return (
