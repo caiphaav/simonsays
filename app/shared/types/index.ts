@@ -12,13 +12,10 @@ export interface ISimonItem {
 }
 
 export interface IGameStore {
-  value: {
-    score: number;
-    level: number;
-    sequence: Array<0 | 1 | 2 | 3>;
-    currentStep: number;
-    isGameOver: boolean;
-  };
+  score: number;
+  level: number;
+  isPlaying: boolean;
+  sequence: Array<0 | 1 | 2 | 3>;
 }
 
 export interface IAppStore {

@@ -1,31 +1,51 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+
+interface IInitialState {
+  score: number;
+  level: number;
+  sequence: Array<number>;
+  isPlaying: boolean;
+}
+
+export interface ISetPlayingPayload {
+  isPlaying: boolean;
+}
 
 const initialState = {
   score: 0,
   level: 1,
   sequence: [],
-  currentStep: 0,
-  isGameOver: false,
+  isPlaying: true,
 };
 
 export const gameSlice = createSlice({
   name: 'game',
-  initialState: {value: initialState},
+  initialState: initialState as IInitialState,
   reducers: {
-    increaseLevel: ({value}) => {
-      value.level++;
+    increaseScore: state => {
+      state.score++;
     },
-    resetLevel: ({value}) => {
-      value.level = 0;
+    generateSequence: {
+      reducer: (state, action: PayloadAction<Array<number>>) => {
+        console.log(action.payload);
+        state.sequence = action.payload;
+      },
+      prepare: (level: number) => {
+        let arr = [];
+        const max = 3;
+        const min = 0;
+        const randomIntFromInterval = () => {
+          return Math.floor(Math.random() * (max - min + 1) + min);
+        };
+        for (let i = 0; i < level; i++) {
+          arr.push(randomIntFromInterval());
+        }
+        return {payload: arr};
+      },
     },
-    increaseScore: ({value}) => {
-      value.score++;
-    },
-    resetScore: ({value}) => {
-      value.score = 0;
-    },
-    setGameOver: ({value}) => {
-      value.isGameOver = true;
+    setPlaying: (state, {payload}: PayloadAction<ISetPlayingPayload>) => {
+      console.log('setPlaying', payload.isPlaying);
+      state.isPlaying = payload.isPlaying;
     },
   },
 });

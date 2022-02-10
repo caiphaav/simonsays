@@ -1,3 +1,3 @@
 import {gameSlice} from '../slices';
 
-export const {increaseScore} = gameSlice.actions;
+export const {increaseScore, generateSequence, setPlaying} = gameSlice.actions;

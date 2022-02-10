@@ -1,22 +1,21 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {SafeAreaView, StyleSheet, View, Text} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import type {StackScreenProps} from '@react-navigation/stack';
 
-import {Types, useThemedStyles, hdp, wdp} from '@shared';
+import {Types, useThemedStyles, hdp, wdp, storeActions} from '@shared';
 
 import {ActionButton} from './components';
 import {SIMON_CONFIG} from './constants';
 import {useSequencePlayer} from './hooks';
 
-const SEQUENCE = [0, 2, 1];
-
 export const Game = ({
   navigation: {},
 }: StackScreenProps<Types.RootStackParamList, 'Game'>) => {
+  const dispatch = useDispatch();
   const style = useThemedStyles(styles);
-  const state = useSelector((s: Types.IAppStore) => s.game.value);
+  const state = useSelector((s: Types.IAppStore) => s.game);
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const renderItem = useCallback(
@@ -26,16 +25,24 @@ export const Game = ({
         activeIndex={activeIndex}
         backgroundColor={backgroundColor}
         index={index}
+        enabled={!state.isPlaying}
       />
     ),
-    [activeIndex],
+    [activeIndex, state.isPlaying],
   );
 
+  console.log(state.isPlaying);
+
   useSequencePlayer({
-    sequence: SEQUENCE,
-    onChange: setActiveIndex,
-    preDelay: 2000,
+    sequence: state.sequence,
+    setActiveNumber: setActiveIndex,
+    playingDispatcher: storeActions.setPlaying,
+    preDelay: 1250,
   });
+
+  useEffect(() => {
+    dispatch(storeActions.generateSequence(state.level));
+  }, [dispatch, state.level]);
 
   return (
     <SafeAreaView style={style.screen}>

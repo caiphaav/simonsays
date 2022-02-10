@@ -18,6 +18,7 @@ interface IActionButton {
   backgroundColor: string;
   index: number;
   activeIndex: number | null;
+  enabled: boolean;
 }
 
 Sound.setCategory('Playback');
@@ -36,6 +37,7 @@ export const ActionButton = ({
   backgroundColor,
   index,
   activeIndex,
+  enabled,
 }: IActionButton) => {
   const dispatch = useDispatch();
   const scale = useSharedValue(1);
@@ -81,7 +83,7 @@ export const ActionButton = ({
   }, [activeIndex, index, scale]);
 
   return (
-    <PanGestureHandler onGestureEvent={onGestureEvent}>
+    <PanGestureHandler enabled={enabled} onGestureEvent={onGestureEvent}>
       <Animated.View
         style={[styles.button, animatedStyle, {backgroundColor}]}
       />
