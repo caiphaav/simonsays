@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {StyleSheet} from 'react-native';
+import Sound from 'react-native-sound';
 import {PanGestureHandler} from 'react-native-gesture-handler';
 import Animated, {
   useSharedValue,
@@ -7,6 +8,7 @@ import Animated, {
   withTiming,
   useAnimatedStyle,
   useAnimatedGestureHandler,
+  runOnJS,
 } from 'react-native-reanimated';
 
 import {hdp} from '@shared';
@@ -17,6 +19,18 @@ interface IActionButton {
   activeIndex: number | null;
 }
 
+Sound.setCategory('Playback');
+
+const ping = new Sound('ping.wav', Sound.MAIN_BUNDLE);
+
+const onPlaySound = () => {
+  ping.play();
+};
+
+const onStopSound = () => {
+  ping.stop();
+};
+
 export const ActionButton = ({
   backgroundColor,
   index,
@@ -26,9 +40,11 @@ export const ActionButton = ({
 
   const onGestureEvent = useAnimatedGestureHandler({
     onStart: _ => {
+      runOnJS(onPlaySound)();
       scale.value = withTiming(0.5);
     },
     onFinish: _ => {
+      runOnJS(onStopSound)();
       scale.value = withTiming(1);
     },
   });
@@ -45,7 +61,15 @@ export const ActionButton = ({
 
   useEffect(() => {
     if (activeIndex === index) {
-      scale.value = withSequence(withTiming(0.5), withTiming(1));
+      ping.play();
+      scale.value = withSequence(
+        withTiming(0.5),
+        withTiming(1, {}, f => {
+          if (f) {
+            runOnJS(onStopSound)();
+          }
+        }),
+      );
     }
   }, [activeIndex, index, scale]);
 
@@ -63,6 +87,6 @@ const styles = StyleSheet.create({
     height: '49%',
     width: '49%',
     marginBottom: hdp(8),
-    borderRadius: 80,
+    borderRadius: hdp(96),
   },
 });

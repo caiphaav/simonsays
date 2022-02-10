@@ -1,4 +1,5 @@
 import {Dispatch, SetStateAction, useEffect} from 'react';
+import Sound from 'react-native-sound';
 
 interface ISequencePlayerParams {
   sequence: Array<number>;
