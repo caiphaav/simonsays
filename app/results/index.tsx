@@ -5,11 +5,21 @@ import {
   Text,
   FlatList,
   BackHandler,
+  View,
+  Pressable,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import type {StackScreenProps} from '@react-navigation/stack';
 
-import {Types, useThemedStyles, storeActions, SharedComponents} from '@shared';
+import {
+  Types,
+  useThemedStyles,
+  storeActions,
+  SharedComponents,
+  hdp,
+  wdp,
+  useTheme,
+} from '@shared';
 
 import * as LocalComponents from './components';
 
@@ -22,6 +32,9 @@ const keyExtractor = (item: Types.IResult) => item.id;
 export const Results = ({
   navigation: {navigate},
 }: StackScreenProps<Types.RootStackParamList, 'Results'>) => {
+  const {
+    palette: {secondary},
+  } = useTheme();
   const ranking = useSelector((s: Types.IAppStore) => s.results.ranking);
   const dispatch = useDispatch();
   const style = useThemedStyles(styles);
@@ -61,7 +74,12 @@ export const Results = ({
         setModalVisible={setModalVisible}
         goBack={goBack}
       />
-      <SharedComponents.VerticalBox height={24} />
+      <SharedComponents.VerticalBox height={64} />
+      <View style={style.absolute}>
+        <Pressable onPress={goBack}>
+          <LocalComponents.CloseIcon fill={secondary} width={24} height={24} />
+        </Pressable>
+      </View>
       <Text style={style.title}>Ranking:</Text>
       <FlatList
         data={fRanking}
@@ -79,6 +97,11 @@ const styles = ({palette, typography}: Types.ITheme) =>
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: palette.primary,
+    },
+    absolute: {
+      position: 'absolute',
+      top: hdp(24),
+      right: hdp(24),
     },
     title: {
       color: palette.secondary,

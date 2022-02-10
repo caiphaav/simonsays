@@ -61,6 +61,7 @@ export const Game = ({
   return (
     <SafeAreaView style={style.screen}>
       <View style={style.scoreWrapper}>
+        <Text>Level: {state.level}</Text>
         <Text>Score: {state.score}</Text>
       </View>
       <View style={style.wrapper}>{SIMON_CONFIG.map(renderItem)}</View>
