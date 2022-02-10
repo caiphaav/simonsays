@@ -1,31 +1,25 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
-interface IInitialState {
-  score: number;
-  level: number;
-  sequence: Array<number>;
-  isPlaying: boolean;
-}
+import {Types} from '@shared';
 
 export interface ISetPlayingPayload {
   isPlaying: boolean;
 }
 
-const initialState = {
+const initialState: Types.IGameStore = {
   score: 0,
   level: 1,
   sequence: [],
+  currentSequenceIndex: 0,
   isPlaying: true,
+  isGameOver: false,
 };
 
 export const gameSlice = createSlice({
   name: 'game',
-  initialState: initialState as IInitialState,
+  initialState: initialState,
   reducers: {
-    increaseScore: state => {
-      state.score++;
-    },
-    generateSequence: {
+    onGenerateSimonSequence: {
       reducer: (state, action: PayloadAction<Array<number>>) => {
         console.log(action.payload);
         state.sequence = action.payload;
@@ -43,8 +37,21 @@ export const gameSlice = createSlice({
         return {payload: arr};
       },
     },
-    setPlaying: (state, {payload}: PayloadAction<ISetPlayingPayload>) => {
-      console.log('setPlaying', payload.isPlaying);
+    onHandleUserEntry: (state, action: PayloadAction<{userEntry: number}>) => {
+      const currentSimonNumber = state.sequence[state.currentSequenceIndex];
+      if (action.payload.userEntry !== currentSimonNumber) {
+        state.isGameOver = true;
+      } else {
+        state.score++;
+        if (state.currentSequenceIndex < state.sequence.length - 1)
+          state.currentSequenceIndex++;
+        else {
+          state.level++;
+          state.currentSequenceIndex = 0;
+        }
+      }
+    },
+    onChangePlaying: (state, {payload}: PayloadAction<ISetPlayingPayload>) => {
       state.isPlaying = payload.isPlaying;
     },
   },

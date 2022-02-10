@@ -12,7 +12,7 @@ interface ISequencePlayerParams {
   preDelay?: number;
 }
 
-export const useSequencePlayer = ({
+export const useSequence = ({
   sequence,
   setActiveNumber,
   playingDispatcher,
@@ -30,6 +30,7 @@ export const useSequencePlayer = ({
       sequence.forEach((number, index) => {
         timeout = setTimeout(() => {
           setActiveNumber(number);
+          setActiveNumber(null);
         }, time * index + preDelay);
       });
       playingTimeout = setTimeout(() => {

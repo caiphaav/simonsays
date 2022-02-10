@@ -8,7 +8,7 @@ import {Types, useThemedStyles, hdp, wdp, storeActions} from '@shared';
 
 import {ActionButton} from './components';
 import {SIMON_CONFIG} from './constants';
-import {useSequencePlayer} from './hooks';
+import {useSequence} from './hooks';
 
 export const Game = ({
   navigation: {},
@@ -31,17 +31,15 @@ export const Game = ({
     [activeIndex, state.isPlaying],
   );
 
-  console.log(state.isPlaying);
-
-  useSequencePlayer({
+  useSequence({
     sequence: state.sequence,
     setActiveNumber: setActiveIndex,
-    playingDispatcher: storeActions.setPlaying,
+    playingDispatcher: storeActions.onChangePlaying,
     preDelay: 1250,
   });
 
   useEffect(() => {
-    dispatch(storeActions.generateSequence(state.level));
+    dispatch(storeActions.onGenerateSimonSequence(state.level));
   }, [dispatch, state.level]);
 
   return (

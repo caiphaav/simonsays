@@ -1,3 +1,4 @@
 import {gameSlice} from '../slices';
 
-export const {increaseScore, generateSequence, setPlaying} = gameSlice.actions;
+export const {onHandleUserEntry, onGenerateSimonSequence, onChangePlaying} =
+  gameSlice.actions;

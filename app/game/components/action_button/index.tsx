@@ -42,19 +42,19 @@ export const ActionButton = ({
   const dispatch = useDispatch();
   const scale = useSharedValue(1);
 
-  const onIncrease = () => {
-    dispatch(storeActions.increaseScore());
-  };
+  const onIncrease = useCallback(() => {
+    dispatch(storeActions.onHandleUserEntry({userEntry: index}));
+  }, [dispatch, index]);
 
   const onGestureEvent = useAnimatedGestureHandler({
     onStart: _ => {
       runOnJS(onPlaySound)();
-      runOnJS(onIncrease)();
       scale.value = withTiming(0.5);
     },
     onFinish: _ => {
       runOnJS(onStopSound)();
       scale.value = withTiming(1);
+      runOnJS(onIncrease)();
     },
   });
 

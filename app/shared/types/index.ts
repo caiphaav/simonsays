@@ -15,7 +15,9 @@ export interface IGameStore {
   score: number;
   level: number;
   isPlaying: boolean;
-  sequence: Array<0 | 1 | 2 | 3>;
+  isGameOver: boolean;
+  sequence: Array<number>;
+  currentSequenceIndex: number;
 }
 
 export interface IAppStore {
