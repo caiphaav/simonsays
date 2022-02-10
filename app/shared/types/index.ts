@@ -20,8 +20,18 @@ export interface IGameStore {
   currentSequenceIndex: number;
 }
 
+export interface IResult {
+  name: string;
+  score: number;
+}
+
+export interface IResultsStore {
+  ranking: Array<IResult>;
+}
+
 export interface IAppStore {
   game: IGameStore;
+  results: IResultsStore;
 }
 
 export interface IPalette {

@@ -1,4 +1,4 @@
-import {gameSlice} from '../slices';
+import {gameSlice, resultsSlice} from '../slices';
 
 export const {
   onHandleUserEntry,
@@ -6,3 +6,5 @@ export const {
   onChangePlaying,
   onReset,
 } = gameSlice.actions;
+
+export const {onAddResult} = resultsSlice.actions;

@@ -9,7 +9,7 @@ const fontFamily = Platform.OS === 'ios' ? 'OpenSans-Regular' : 'open_sans';
 export const typography: ITypography = {
   small: {
     fontFamily,
-    fontSize: hdp(18),
+    fontSize: hdp(12),
   },
   medium: {
     fontFamily,
@@ -17,6 +17,6 @@ export const typography: ITypography = {
   },
   large: {
     fontFamily,
-    fontSize: hdp(13),
+    fontSize: hdp(16),
   },
 };
