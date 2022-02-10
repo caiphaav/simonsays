@@ -2,12 +2,12 @@ import {Dispatch, SetStateAction, useEffect} from 'react';
 import {ActionCreatorWithPayload} from '@reduxjs/toolkit';
 import {useDispatch} from 'react-redux';
 
-import {ISetPlayingPayload} from '../../shared/store/slices/game';
+import {ChangePlayingEventPayload} from '../../shared/store/slices/game';
 
 interface ISequencePlayerParams {
   sequence: Array<number>;
   setActiveNumber: Dispatch<SetStateAction<number | null>>;
-  playingDispatcher: ActionCreatorWithPayload<ISetPlayingPayload, string>;
+  playingDispatcher: ActionCreatorWithPayload<ChangePlayingEventPayload>;
   time?: number;
   preDelay?: number;
 }
