@@ -3,18 +3,23 @@ import {Button, SafeAreaView, StyleSheet} from 'react-native';
 
 import type {StackScreenProps} from '@react-navigation/stack';
 
-import {Types, useThemedStyles} from '@shared';
+import {Types, useThemedStyles, storeActions} from '@shared';
+import {useDispatch} from 'react-redux';
 
 export const Results = ({
   navigation: {navigate},
 }: StackScreenProps<Types.RootStackParamList, 'Results'>) => {
+  const dispatch = useDispatch();
   const style = useThemedStyles(styles);
 
-  const onPress = useCallback(() => navigate('Results'), [navigate]);
+  const onPress = useCallback(() => {
+    dispatch(storeActions.onReset());
+    navigate('Start');
+  }, [dispatch, navigate]);
 
   return (
     <SafeAreaView style={style.screen}>
-      <Button title={'Finish'} onPress={onPress} />
+      <Button title={'Game over'} onPress={onPress} />
     </SafeAreaView>
   );
 };

@@ -2,8 +2,12 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 import {Types} from '@shared';
 
-export interface ISetPlayingPayload {
+export interface ChangePlayingEventPayload {
   isPlaying: boolean;
+}
+
+export interface HandleUserEntryEventPayload {
+  userEntry: number;
 }
 
 const initialState: Types.IGameStore = {
@@ -37,7 +41,10 @@ export const gameSlice = createSlice({
         return {payload: arr};
       },
     },
-    onHandleUserEntry: (state, action: PayloadAction<{userEntry: number}>) => {
+    onHandleUserEntry: (
+      state,
+      action: PayloadAction<HandleUserEntryEventPayload>,
+    ) => {
       const currentSimonNumber = state.sequence[state.currentSequenceIndex];
       if (action.payload.userEntry !== currentSimonNumber) {
         state.isGameOver = true;
@@ -51,8 +58,19 @@ export const gameSlice = createSlice({
         }
       }
     },
-    onChangePlaying: (state, {payload}: PayloadAction<ISetPlayingPayload>) => {
+    onChangePlaying: (
+      state,
+      {payload}: PayloadAction<ChangePlayingEventPayload>,
+    ) => {
       state.isPlaying = payload.isPlaying;
+    },
+    onReset: state => {
+      state.isGameOver = false;
+      state.level = 1;
+      state.score = 0;
+      state.sequence = [];
+      state.currentSequenceIndex = 0;
+      state.isPlaying = true;
     },
   },
 });

@@ -11,7 +11,7 @@ import {SIMON_CONFIG} from './constants';
 import {useSequence} from './hooks';
 
 export const Game = ({
-  navigation: {},
+  navigation: {navigate},
 }: StackScreenProps<Types.RootStackParamList, 'Game'>) => {
   const dispatch = useDispatch();
   const style = useThemedStyles(styles);
@@ -31,6 +31,9 @@ export const Game = ({
     [activeIndex, state.isPlaying],
   );
 
+  /**
+   * Hook responsible for handling actions with Simon's sequence
+   * */
   useSequence({
     sequence: state.sequence,
     setActiveNumber: setActiveIndex,
@@ -38,9 +41,22 @@ export const Game = ({
     preDelay: 1250,
   });
 
+  /**
+   * Generate sequence per level
+   * */
   useEffect(() => {
     dispatch(storeActions.onGenerateSimonSequence(state.level));
   }, [dispatch, state.level]);
+
+  console.log('state.isGameOver', state.isGameOver);
+  /**
+   * Navigate to game over screen if loosed
+   * */
+  useEffect(() => {
+    if (state.isGameOver) {
+      navigate('Results');
+    }
+  }, [navigate, state.isGameOver]);
 
   return (
     <SafeAreaView style={style.screen}>
