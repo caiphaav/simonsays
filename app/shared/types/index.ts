@@ -11,6 +11,20 @@ export interface ISimonItem {
   index: number;
 }
 
+export interface IGameStore {
+  value: {
+    score: number;
+    level: number;
+    sequence: Array<0 | 1 | 2 | 3>;
+    currentStep: number;
+    isGameOver: boolean;
+  };
+}
+
+export interface IAppStore {
+  game: IGameStore;
+}
+
 export interface IPalette {
   primary: string;
   secondary: string;

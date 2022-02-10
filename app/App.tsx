@@ -6,8 +6,9 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import {Provider} from 'react-redux';
 
-import {ThemeProvider, Types} from '@shared';
+import {ThemeProvider, Types, store} from '@shared';
 
 import {Start} from './start';
 import {Results} from './results';
@@ -20,13 +21,15 @@ export default function App() {
     <GestureHandlerRootView style={styles.root}>
       <SafeAreaProvider>
         <ThemeProvider>
-          <NavigationContainer>
-            <Stack.Navigator initialRouteName={'Start'}>
-              <Stack.Screen name="Start" component={Start} />
-              <Stack.Screen name="Results" component={Results} />
-              <Stack.Screen name="Game" component={Game} />
-            </Stack.Navigator>
-          </NavigationContainer>
+          <Provider store={store}>
+            <NavigationContainer>
+              <Stack.Navigator initialRouteName={'Start'}>
+                <Stack.Screen name="Start" component={Start} />
+                <Stack.Screen name="Results" component={Results} />
+                <Stack.Screen name="Game" component={Game} />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </Provider>
         </ThemeProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {StyleSheet} from 'react-native';
 import Sound from 'react-native-sound';
 import {PanGestureHandler} from 'react-native-gesture-handler';
@@ -10,8 +10,9 @@ import Animated, {
   useAnimatedGestureHandler,
   runOnJS,
 } from 'react-native-reanimated';
+import {useDispatch} from 'react-redux';
 
-import {hdp} from '@shared';
+import {hdp, storeActions} from '@shared';
 
 interface IActionButton {
   backgroundColor: string;
@@ -36,11 +37,17 @@ export const ActionButton = ({
   index,
   activeIndex,
 }: IActionButton) => {
+  const dispatch = useDispatch();
   const scale = useSharedValue(1);
+
+  const onIncrease = () => {
+    dispatch(storeActions.increaseScore());
+  };
 
   const onGestureEvent = useAnimatedGestureHandler({
     onStart: _ => {
       runOnJS(onPlaySound)();
+      runOnJS(onIncrease)();
       scale.value = withTiming(0.5);
     },
     onFinish: _ => {
