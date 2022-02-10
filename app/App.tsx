@@ -6,9 +6,10 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import {PersistGate} from 'redux-persist/integration/react';
 import {Provider} from 'react-redux';
 
-import {ThemeProvider, Types, store, Constants} from '@shared';
+import {ThemeProvider, Types, store, persistor, Constants} from '@shared';
 
 import {Start} from './start';
 import {Results} from './results';
@@ -22,15 +23,17 @@ export default function App() {
       <SafeAreaProvider>
         <ThemeProvider>
           <Provider store={store}>
-            <NavigationContainer>
-              <Stack.Navigator
-                initialRouteName={'Start'}
-                screenOptions={Constants.SCREEN_OPTIONS}>
-                <Stack.Screen name="Start" component={Start} />
-                <Stack.Screen name="Game" component={Game} />
-                <Stack.Screen name="Results" component={Results} />
-              </Stack.Navigator>
-            </NavigationContainer>
+            <PersistGate loading={null} persistor={persistor}>
+              <NavigationContainer>
+                <Stack.Navigator
+                  initialRouteName={'Start'}
+                  screenOptions={Constants.SCREEN_OPTIONS}>
+                  <Stack.Screen name="Start" component={Start} />
+                  <Stack.Screen name="Game" component={Game} />
+                  <Stack.Screen name="Results" component={Results} />
+                </Stack.Navigator>
+              </NavigationContainer>
+            </PersistGate>
           </Provider>
         </ThemeProvider>
       </SafeAreaProvider>

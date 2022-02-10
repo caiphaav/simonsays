@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -33,6 +33,16 @@ export const Results = ({
     navigate('Start');
   }, [dispatch, navigate]);
 
+  const fRanking = useMemo(
+    () =>
+      ranking
+        .slice()
+        .sort((a: Types.IResult, b: Types.IResult) =>
+          a.score > b.score ? -1 : 1,
+        ),
+    [ranking],
+  );
+
   useEffect(() => {
     setModalVisible(true);
 
@@ -54,7 +64,7 @@ export const Results = ({
       <SharedComponents.VerticalBox height={24} />
       <Text style={style.title}>Ranking:</Text>
       <FlatList
-        data={ranking}
+        data={fRanking}
         keyExtractor={keyExtractor}
         renderItem={renderItem}
       />

@@ -1,16 +1,23 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {Button, SafeAreaView, StyleSheet} from 'react-native';
 
 import type {StackScreenProps} from '@react-navigation/stack';
 
-import {Types, useThemedStyles} from '@shared';
+import {Types, useThemedStyles, storeActions} from '@shared';
+import {useDispatch} from 'react-redux';
 
 export const Start = ({
   navigation: {navigate},
 }: StackScreenProps<Types.RootStackParamList, 'Start'>) => {
+  const dispatch = useDispatch();
   const style = useThemedStyles(styles);
 
   const onPress = useCallback(() => navigate('Game'), [navigate]);
+
+  useEffect(() => {
+    // initial reset
+    dispatch(storeActions.onReset());
+  }, [dispatch]);
 
   return (
     <SafeAreaView style={style.screen}>
